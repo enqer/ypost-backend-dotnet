@@ -2,6 +2,8 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ypost_backend_dotnet.Common;
 using ypost_backend_dotnet.Entities;
 using ypost_backend_dotnet.Models;
@@ -12,7 +14,29 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var authSettings = new AuthSettings();
+builder.Configuration.GetSection("Authentication").Bind(authSettings);
 
+builder.Services.AddSingleton(authSettings);
+
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = "Bearer";
+    option.DefaultScheme = "Bearer";
+    option.DefaultChallengeScheme = "Bearer";
+}).AddJwtBearer(cfg =>
+{
+    cfg.RequireHttpsMetadata = false;
+    cfg.SaveToken = true;
+    cfg.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = authSettings.JwtIssuer,
+        ValidAudience = authSettings.JwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.JwtKey)),
+    };
+});
+
+builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -42,6 +66,8 @@ if (app.Environment.IsDevelopment())
 }
 SeedData(app);
 
+app.UseAuthentication();
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

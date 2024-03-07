@@ -16,11 +16,18 @@ namespace ypost_backend_dotnet.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("/register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {
             _authService.RegisterUser(dto);
             return Ok();
+        }
+
+        [HttpPost("/login")]
+        public ActionResult Login([FromBody] LoginDto dto)
+        {
+            string token = _authService.GenerateJwt(dto);
+            return Ok(token);
         }
     }
 }
