@@ -12,10 +12,16 @@ namespace ypost_backend_dotnet.Common
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Entry> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<User>(u =>
+            {
+                u.Property(u => u.Username).HasMaxLength(25);
+                u.Property(u => u.FirstName).HasMaxLength(25);
+                u.Property(u => u.LastName).HasMaxLength(25);
+            });
         }
     }
 }
