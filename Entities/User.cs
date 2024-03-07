@@ -1,11 +1,14 @@
-﻿namespace ypost_backend_dotnet.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ypost_backend_dotnet.Entities
 {
     public class User
     {
         public Guid Id { get; set; }
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string? LastName { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         public string? Image { get; set; }
         public string? Bio { get; set; }

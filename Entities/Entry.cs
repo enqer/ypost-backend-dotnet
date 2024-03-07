@@ -7,10 +7,10 @@
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set;}
         public int Likes { get; set; }
-        public bool IsPost { get; set; }
         public User Author { get; set; }
         public Guid AuthorId { get; set; }
         public List<Entry> Comments { get; set; } = new List<Entry>();
+        public Guid? EntryId { get; set; }
 
     }
 }
