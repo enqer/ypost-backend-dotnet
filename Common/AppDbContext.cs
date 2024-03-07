@@ -13,6 +13,7 @@ namespace ypost_backend_dotnet.Common
 
         public DbSet<User> Users { get; set; }
         public DbSet<Entry> Posts { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +32,8 @@ namespace ypost_backend_dotnet.Common
                 e.Property(e => e.CreatedOn).HasDefaultValue(DateTime.UtcNow.AddHours(1));
                 e.Property(e => e.Likes).HasDefaultValue(0);
             });
+
+            
         }
     }
 }

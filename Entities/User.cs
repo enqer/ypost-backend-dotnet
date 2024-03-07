@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace ypost_backend_dotnet.Entities
 {
@@ -15,5 +16,8 @@ namespace ypost_backend_dotnet.Entities
         public DateTime? BirthDate { get; set; }
         public DateTime JoinedOn { get; set; }
         public List<Entry> Posts { get; set; } = new List<Entry>();
+        public string Password { get; set; }
+        public int RoleId { get; set; }
+        public virtual Role Role { get; set; }
     }
 }
