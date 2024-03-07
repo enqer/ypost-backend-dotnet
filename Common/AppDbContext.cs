@@ -22,6 +22,7 @@ namespace ypost_backend_dotnet.Common
                 u.Property(u => u.UserName).HasMaxLength(25);
                 u.Property(u => u.FirstName).HasMaxLength(25);
                 u.Property(u => u.LastName).HasMaxLength(25);
+                u.Property(u => u.Bio).HasMaxLength(100);
                 u.Property(u => u.JoinedOn).HasDefaultValue(DateTime.UtcNow.AddHours(1));
                 u.HasMany(u => u.Posts).WithOne(e => e.Author).HasForeignKey(k => k.AuthorId);
             });
@@ -33,7 +34,7 @@ namespace ypost_backend_dotnet.Common
                 e.Property(e => e.Likes).HasDefaultValue(0);
             });
 
-            
+
         }
     }
 }
