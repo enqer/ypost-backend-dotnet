@@ -74,6 +74,7 @@ namespace ypost_backend_dotnet.Services
 
         public void RegisterUser(RegisterUserDto dto)
         {
+            
             var newUser = new User()
             {
                 UserName = dto.UserName,

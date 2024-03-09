@@ -19,6 +19,7 @@ namespace ypost_backend_dotnet.Controllers
         [HttpPost("/register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {
+           
             _authService.RegisterUser(dto);
             return Ok();
         }

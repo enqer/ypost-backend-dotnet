@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ypost_backend_dotnet.Common;
 using ypost_backend_dotnet.Entities;
+using ypost_backend_dotnet.Middleware;
 using ypost_backend_dotnet.Models;
 using ypost_backend_dotnet.Models.Validators;
 using ypost_backend_dotnet.Services;
@@ -46,6 +47,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddTransient<Seeder>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 builder.Services.AddDbContext<AppDbContext>(
         option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyConnectionString"))
@@ -64,7 +66,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 SeedData(app);
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseHttpsRedirection();

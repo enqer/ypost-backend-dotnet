@@ -12,6 +12,7 @@ namespace ypost_backend_dotnet.Models.Validators
                 .MinimumLength(8);
             RuleFor(x => x.UserName)
                 .MinimumLength(5)
+                .MaximumLength(25)
                 .Custom((value, context) =>
                 {
                     var usernameUsed = dbContext.Users.Any(u => u.UserName ==  value);
@@ -21,7 +22,14 @@ namespace ypost_backend_dotnet.Models.Validators
                     }
                 });
             RuleFor(x => x.FirstName)
-                .MinimumLength(5);
+                .MinimumLength(5)
+                .MaximumLength(25);
+
+            RuleFor(x => x.LastName)
+                .MaximumLength(25);
+
+            RuleFor(x => x.Bio)
+                .MaximumLength(100);
 
             RuleFor(x => x.Email)
                 .NotEmpty()
