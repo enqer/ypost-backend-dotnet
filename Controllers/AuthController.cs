@@ -5,7 +5,7 @@ using ypost_backend_dotnet.Services;
 namespace ypost_backend_dotnet.Controllers
 {
     [ApiController]
-    [Route("api/auth")]
+    [Route("/api/v1/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;

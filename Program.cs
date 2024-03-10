@@ -43,6 +43,7 @@ builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddTransient<Seeder>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
