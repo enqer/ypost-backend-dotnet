@@ -23,7 +23,7 @@ namespace ypost_backend_dotnet.Middleware
             catch (Exception ex)
             {
                 // logger
-
+                Console.WriteLine(ex.ToString());
                 context.Response.StatusCode = 500;
                 await context.Response.WriteAsync("Something went wrong");
             }
