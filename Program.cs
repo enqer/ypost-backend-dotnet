@@ -47,6 +47,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddTransient<Seeder>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+builder.Services.AddScoped<IValidator<CreateCommentDto>, CreateCommentDtoValidator>();
+builder.Services.AddScoped<IValidator<CreatePostDto>, CreatePostDtoValidator>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 builder.Services.AddDbContext<AppDbContext>(
