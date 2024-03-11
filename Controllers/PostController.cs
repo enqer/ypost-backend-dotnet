@@ -26,7 +26,14 @@ namespace ypost_backend_dotnet.Controllers
             return Created($"/api/v1/post/{res.Id}",null);
         }
 
-       
+        [HttpPost("{id}/thread")]
+        public ActionResult CreateThread([FromRoute] Guid id, [FromBody] CreatePostDto dto)
+        {
+
+            Entry res = postService.CreateThread(id, dto);
+
+            return Created($"/api/v1/post/{id}/thread/{res.Id}", null);
+        }
 
 
         [HttpGet]

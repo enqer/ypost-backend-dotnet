@@ -10,7 +10,7 @@ namespace ypost_backend_dotnet.Services
     public interface IPostService
     {
         Entry CreatePost(CreatePostDto dto);
-       
+        public Entry CreateThread(Guid id, CreatePostDto dto);
         List<PostDto> GetPosts();
         public FullPostDto GetPostById(Guid id);
     }
@@ -42,7 +42,22 @@ namespace ypost_backend_dotnet.Services
             return post;
         }
 
-       
+        public Entry CreateThread(Guid id, CreatePostDto dto)
+        {
+            var post = new Entry()
+            {
+                Content = dto.Content,
+                CreatedOn = DateTime.UtcNow.AddHours(1),
+                Likes = 0,
+                AuthorId = dto.AuthorId,
+                EntryId = id,
+
+            };
+
+            _dbContext.Posts.Add(post);
+            _dbContext.SaveChanges();
+            return post;
+        }
 
 
         public FullPostDto GetPostById(Guid id)
