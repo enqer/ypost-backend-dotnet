@@ -10,7 +10,9 @@ namespace ypost_backend_dotnet.Services
     public interface IPostService
     {
         Entry CreatePost(CreatePostDto dto);
+       
         List<PostDto> GetPosts();
+        public FullPostDto GetPostById(Guid id);
     }
 
     public class PostService : IPostService
@@ -40,15 +42,42 @@ namespace ypost_backend_dotnet.Services
             return post;
         }
 
+       
+
+
+        public FullPostDto GetPostById(Guid id)
+        {
+            var post = _dbContext
+                .Posts
+                .Where(x => x.Id == id)
+                .Include(x => x.Author)
+                .Include(x => x.Comments)
+                .SingleOrDefault();
+
+            var comments = _dbContext
+                .Posts
+                .Where(x => x.EntryId == id)
+                .Include(x => x.Author)
+                .Include(x => x.Comments)
+                .ToList();
+
+            var resCom = _mapper.Map<List<PostDto>>(comments);
+            var results = _mapper.Map<FullPostDto>(post);
+            results.Comments = resCom;
+
+            return results;
+        }
+
         public List<PostDto> GetPosts()
         {
             var posts = _dbContext
                 .Posts
                 .Where(x => x.EntryId == null)
                 .Include(x => x.Author)
+                .Include(x => x.Comments)
                 .ToList();
 
-            var results = _mapper.Map<List<PostDto>>(_dbContext.Posts);
+            var results = _mapper.Map<List<PostDto>>(posts);
 
             return results;
         }

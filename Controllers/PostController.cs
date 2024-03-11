@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using ypost_backend_dotnet.Entities;
 using ypost_backend_dotnet.Models;
 using ypost_backend_dotnet.Services;
 
@@ -21,10 +22,11 @@ namespace ypost_backend_dotnet.Controllers
         [HttpPost]
         public ActionResult CreatePost([FromBody] CreatePostDto dto)
         {
-            Console.WriteLine("tet");
             var res = postService.CreatePost(dto);
             return Created($"/api/v1/post/{res.Id}",null);
         }
+
+       
 
 
         [HttpGet]
@@ -33,6 +35,14 @@ namespace ypost_backend_dotnet.Controllers
             var posts = postService.GetPosts();
 
             return Ok(posts);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<FullPostDto> GetPostById([FromRoute] Guid id)
+        {
+            FullPostDto res = postService.GetPostById(id);
+
+            return Ok(res);
         }
     }
 }
