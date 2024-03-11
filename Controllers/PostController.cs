@@ -19,13 +19,20 @@ namespace ypost_backend_dotnet.Controllers
 
 
         [HttpPost]
-        public ActionResult createPost([FromBody] CreatePostDto dto)
+        public ActionResult CreatePost([FromBody] CreatePostDto dto)
         {
             Console.WriteLine("tet");
-            var res = postService.createPost(dto);
+            var res = postService.CreatePost(dto);
             return Created($"/api/v1/post/{res.Id}",null);
         }
 
-        
+
+        [HttpGet]
+        public ActionResult<List<PostDto>> GetPosts()
+        {
+            var posts = postService.GetPosts();
+
+            return Ok(posts);
+        }
     }
 }
