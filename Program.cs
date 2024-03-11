@@ -9,7 +9,10 @@ using ypost_backend_dotnet.Entities;
 using ypost_backend_dotnet.Middleware;
 using ypost_backend_dotnet.Models;
 using ypost_backend_dotnet.Models.Validators;
+using ypost_backend_dotnet.Profiles;
 using ypost_backend_dotnet.Services;
+using AutoMapper;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +49,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddTransient<Seeder>();
+builder.Services.AddAutoMapper(typeof(PostMappingProfile));
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<CreateCommentDto>, CreateCommentDtoValidator>();
