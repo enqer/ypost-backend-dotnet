@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ypost_backend_dotnet.Common;
 using ypost_backend_dotnet.Entities;
@@ -15,6 +16,7 @@ namespace ypost_backend_dotnet.Services
         List<PostDto> GetPosts();
         public FullPostDto GetPostById(Guid id);
         void AddLikeToPost(Guid id);
+        void UpdatePost(Guid id, UpdatePostDto content);
     }
 
     public class PostService : IPostService
@@ -111,6 +113,21 @@ namespace ypost_backend_dotnet.Services
             var results = _mapper.Map<List<PostDto>>(posts);
 
             return results;
+        }
+
+        public void UpdatePost(Guid id,[FromBody] UpdatePostDto dto)
+        {
+            var post = _dbContext
+                .Posts
+                .Where(x => x.Id == id)
+                .SingleOrDefault();
+
+            if (post == null)
+                throw new NotFoundException("Post doesn't exist");
+            
+            post.Content = dto.Content;
+            post.UpdatedOn = DateTime.Now.AddHours(1);
+            _dbContext.SaveChanges();
         }
     }
 }

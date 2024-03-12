@@ -7,7 +7,7 @@ using ypost_backend_dotnet.Services;
 namespace ypost_backend_dotnet.Controllers
 {
 
-    [Route("/api/v1/post")]
+    [Route("/api/v1/posts")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -23,22 +23,29 @@ namespace ypost_backend_dotnet.Controllers
         public ActionResult CreatePost([FromBody] CreatePostDto dto)
         {
             var res = postService.CreatePost(dto);
-            return Created($"/api/v1/post/{res.Id}",null);
+            return Created($"/api/v1/posts/{res.Id}",null);
         }
 
-        [HttpPost("{id}/thread")]
+        [HttpPost("{id}/threads")]
         public ActionResult CreateThread([FromRoute] Guid id, [FromBody] CreatePostDto dto)
         {
 
             Entry res = postService.CreateThread(id, dto);
 
-            return Created($"/api/v1/post/{id}/thread/{res.Id}", null);
+            return Created($"/api/v1/posts/{id}/threads/{res.Id}", null);
         }
 
-        [HttpPost("{id}/like")]
+        [HttpPost("{id}/likes")]
         public ActionResult AddLikeToPost([FromRoute] Guid id)
         {
             postService.AddLikeToPost(id);
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public ActionResult UpdatePost([FromRoute] Guid id, [FromBody] UpdatePostDto dto)
+        {
+            postService.UpdatePost(id, dto);
             return NoContent();
         }
 
