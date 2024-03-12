@@ -35,6 +35,13 @@ namespace ypost_backend_dotnet.Controllers
             return Created($"/api/v1/post/{id}/thread/{res.Id}", null);
         }
 
+        [HttpPost("{id}/like")]
+        public ActionResult AddLikeToPost([FromRoute] Guid id)
+        {
+            postService.AddLikeToPost(id);
+            return NoContent();
+        }
+
 
         [HttpGet]
         public ActionResult<List<PostDto>> GetPosts()

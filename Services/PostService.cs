@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ypost_backend_dotnet.Common;
 using ypost_backend_dotnet.Entities;
+using ypost_backend_dotnet.Exceptions;
 using ypost_backend_dotnet.Models;
 
 namespace ypost_backend_dotnet.Services
@@ -13,6 +14,7 @@ namespace ypost_backend_dotnet.Services
         public Entry CreateThread(Guid id, CreatePostDto dto);
         List<PostDto> GetPosts();
         public FullPostDto GetPostById(Guid id);
+        void AddLikeToPost(Guid id);
     }
 
     public class PostService : IPostService
@@ -25,6 +27,20 @@ namespace ypost_backend_dotnet.Services
         {
             _dbContext = appDbContext;
             _mapper = mapper;
+        }
+
+        public void AddLikeToPost(Guid id)
+        {
+            var post = _dbContext
+                .Posts
+                .Where(x => x.Id == id)
+                .SingleOrDefault();
+
+            if (post == null)
+                throw new NotFoundException("Post doesn't exist");
+
+            post.Likes += 1;
+            _dbContext.SaveChanges();
         }
 
         public Entry CreatePost(CreatePostDto dto)
