@@ -34,6 +34,8 @@ namespace ypost_backend_dotnet.Profiles
 
                 }));
 
+            CreateMap<UserDto, User>();
+
             //CreateMap<UserMinimalDto, Entry>()
             //     .ForMember(m => m.Author, c => c.MapFrom(m => new UserMinimalDto()
             //     {
